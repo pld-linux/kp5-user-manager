@@ -1,15 +1,15 @@
-%define		kdeplasmaver	5.14.5
+%define		kdeplasmaver	5.15.3
 %define		qtver		5.9.0
 %define		kpname		user-manager
 
 Summary:	KDE Plasma User Manager
 Name:		kp5-%{kpname}
-Version:	5.14.5
+Version:	5.15.3
 Release:	1
 License:	LGPL v2.1+
 Group:		X11/Libraries
 Source0:	http://download.kde.org/stable/plasma/%{kdeplasmaver}/%{kpname}-%{version}.tar.xz
-# Source0-md5:	35d9661cf71a2d2d42a464dd416ba3a6
+# Source0-md5:	c1b015e2c94995c1e336204900d77929
 URL:		http://www.kde.org/
 BuildRequires:	Qt5Core-devel >= %{qtver}
 BuildRequires:	cmake >= 2.8.12
@@ -32,6 +32,7 @@ BuildRequires:	kf5-krunner-devel
 BuildRequires:	kf5-kwallet-devel
 BuildRequires:	kf5-plasma-framework-devel
 BuildRequires:	libpwquality-devel
+BuildRequires:	ninja
 BuildRequires:	rpmbuild(macros) >= 1.164
 BuildRequires:	xorg-driver-input-evdev-devel
 BuildRequires:	xorg-driver-input-synaptics-devel
@@ -50,16 +51,14 @@ KDE Plasma User Manager.
 %build
 install -d build
 cd build
-%cmake \
+%cmake -G Ninja \
 	-DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
 	../
-%{__make}
+%ninja_build
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
-%{__make} -C build/ install \
-        DESTDIR=$RPM_BUILD_ROOT
+%ninja_install -C build
 
 %find_lang %{kpname} --all-name --with-kde
 
@@ -71,3 +70,4 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/qt5/plugins/user_manager.so
 %{_datadir}/kservices5/user_manager.desktop
 %{_datadir}/user-manager
+/etc/xdg/user-manager.categories
