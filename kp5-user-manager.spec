@@ -5,7 +5,7 @@
 Summary:	KDE Plasma User Manager
 Name:		kp5-%{kpname}
 Version:	5.15.3
-Release:	1
+Release:	2
 License:	LGPL v2.1+
 Group:		X11/Libraries
 Source0:	http://download.kde.org/stable/plasma/%{kdeplasmaver}/%{kpname}-%{version}.tar.xz
